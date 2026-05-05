@@ -154,21 +154,24 @@ document.addEventListener('DOMContentLoaded', () => {
             itemsGrid.className = 'grid grid-cols-1 md:grid-cols-2 gap-4';
 
             groupedProducts[categoryName].forEach(product => {
+                // Hỗ trợ đọc dữ liệu từ cả 2 nguồn (Quán nhậu & Dashboard)
+                const productName = product.name || product.ten_mon || 'Món chưa có tên';
+                const productPrice = product.price || product.don_gia || 0;
                 const productCard = document.createElement('div');
                 productCard.className = 'bg-white rounded-lg shadow-md p-4 flex items-center gap-4';
                 const imageHtml = product.imageUrl ?
-                    `<img src="${product.imageUrl}" alt="${product.name}" class="w-20 h-20 object-cover rounded-md flex-shrink-0 shadow">` :
+                    `<img src="${product.imageUrl}" alt="${productName}" class="w-20 h-20 object-cover rounded-md flex-shrink-0 shadow">` :
                     `<div class="w-20 h-20 bg-gray-200 rounded-md flex items-center justify-center text-gray-400 flex-shrink-0"><i class="fas fa-image fa-lg"></i></div>`;
 
                 productCard.innerHTML = `
                     ${imageHtml}
                     <div class="flex-grow">
-                        <h3 class="font-bold text-lg">${product.name}</h3>
-                        <p class="text-gray-600">${formatCurrency(product.price)}</p>
+                        <h3 class="font-bold text-lg">${productName}</h3>
+                        <p class="text-gray-600">${formatCurrency(productPrice)}</p>
                         ${product.description ? `<p class="text-sm text-gray-500 mt-1 italic">"${product.description}"</p>` : ''}
                     </div>
                     <div class="flex-shrink-0">
-                        <button data-id="${product.id}" data-name="${product.name}" data-price="${product.price}" class="add-to-cart-btn bg-blue-500 text-white w-10 h-10 rounded-full font-bold text-xl hover:bg-blue-600 transition-transform transform hover:scale-110">+</button>
+                        <button data-id="${product.id}" data-name="${productName}" data-price="${productPrice}" class="add-to-cart-btn bg-blue-500 text-white w-10 h-10 rounded-full font-bold text-xl hover:bg-blue-600 transition-transform transform hover:scale-110">+</button>
                     </div>
                 `;
                 itemsGrid.appendChild(productCard);

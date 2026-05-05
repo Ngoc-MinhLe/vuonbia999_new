@@ -352,14 +352,16 @@
                 categorySection.innerHTML = `<h3 class="text-xl font-bold text-gray-800 mb-3 pb-2 border-b">${category}</h3>`;
                 const itemsContainer = document.createElement('div');
                 itemsContainer.className = 'space-y-3';
-                groupedProducts[category].sort((a, b) => a.name.localeCompare(b.name)).forEach(product => {
+                groupedProducts[category].sort((a, b) => (a.name || a.ten_mon || '').localeCompare(b.name || b.ten_mon || '')).forEach(product => {
+                    const productName = product.name || product.ten_mon || 'Món chưa có tên';
+                    const productPrice = product.price || product.don_gia || 0;
                     const productEl = document.createElement('div');
                     productEl.className = 'flex items-center gap-4 p-3 rounded-md hover:bg-gray-50';
-                    const imageHtml = product.imageUrl ? `<img src="${product.imageUrl}" alt="${product.name}" class="w-16 h-16 object-cover rounded-md flex-shrink-0 shadow">` : `<div class="w-16 h-16 bg-gray-200 rounded-md flex items-center justify-center text-gray-400 flex-shrink-0"><i class="fas fa-image fa-lg"></i></div>`;
+                    const imageHtml = product.imageUrl ? `<img src="${product.imageUrl}" alt="${productName}" class="w-16 h-16 object-cover rounded-md flex-shrink-0 shadow">` : `<div class="w-16 h-16 bg-gray-200 rounded-md flex items-center justify-center text-gray-400 flex-shrink-0"><i class="fas fa-image fa-lg"></i></div>`;
                     const contentHtml = `
                         <div class="flex-grow">
-                            <p class="font-bold text-lg">${product.name}</p>
-                            <p class="text-gray-600 text-sm">${formatCurrency(product.price)}</p>
+                            <p class="font-bold text-lg">${productName}</p>
+                            <p class="text-gray-600 text-sm">${formatCurrency(productPrice)}</p>
                             ${product.description ? `<p class="text-sm text-gray-500 mt-1 italic">"${product.description}"</p>` : ''}
                         </div>
                         <div class="flex items-center gap-2 flex-shrink-0">
@@ -442,8 +444,8 @@
                 const product = allProducts.find(p => p.id === id);
                 if (product) {
                     document.getElementById('product-id').value = id;
-                    document.getElementById('product-name').value = product.name;
-                    document.getElementById('product-price').value = product.price;
+                    document.getElementById('product-name').value = product.name || product.ten_mon || '';
+                    document.getElementById('product-price').value = product.price || product.don_gia || '';
                     document.getElementById('product-description').value = product.description || '';
                     document.getElementById('product-image-url').value = product.imageUrl || '';
                     document.getElementById('product-category-select').value = product.category;
