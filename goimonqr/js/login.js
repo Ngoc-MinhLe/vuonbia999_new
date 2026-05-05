@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Đăng nhập thành công, Firebase sẽ tự động quản lý phiên.
             // Chỉ cần chuyển hướng.
             console.log("Đăng nhập thành công:", userCredential.user.email);
-            window.location.href = 'goiMonQR/dashboard/';
+            window.location.href = 'goimonqr/dashboard/';
         } catch (error) {
             // Xử lý lỗi
             console.error("Lỗi đăng nhập:", error.code);
